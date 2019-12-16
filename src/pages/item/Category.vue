@@ -26,13 +26,26 @@
         console.log(node);
       },
       handleEdit(id, name) {
-        console.log("edit... id: " + id + ", name: " + name)
+        const node = {
+          id:id,
+          name:name
+        };
+        this.$http({
+          method:'put',
+          url:'/item/category',
+          data:this.$qs.stringify(node)
+        }).then(() => {
+          this.$message.info("修改成功！");
+        }).catch(() => {
+          this.$message.info("修改失败！");
+        });
+        console.log("edit... id: " + id + ", name: " + name);
       },
       handleDelete(id) {
-        console.log("delete ... " + id)
+        console.log("delete ... " + id);
       },
       handleClick(node) {
-        console.log(node)
+        console.log(node);
       }
     }
   };
