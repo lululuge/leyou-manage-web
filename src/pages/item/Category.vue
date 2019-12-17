@@ -22,6 +22,15 @@
     },
     methods: {
       handleAdd(node) {
+        this.$http({
+          method:'post',
+          url:'/item/category',
+          data:this.$qs.stringify(node)
+        }).then(() => {
+          this.$message.info("添加成功！")
+        }).catch(() => {
+          this.$message.info("添加失败！")
+        });
         console.log("add .... ");
         console.log(node);
       },
@@ -42,6 +51,11 @@
         console.log("edit... id: " + id + ", name: " + name);
       },
       handleDelete(id) {
+        this.$http.delete("/item/category/cid/" + id).then(() => {
+          this.$message.info("删除成功！");
+        }).catch(() => {
+          this.$message.info("删除失败！");
+        });
         console.log("delete ... " + id);
       },
       handleClick(node) {
