@@ -1,5 +1,5 @@
 <template>
-    <div>   
+    <div>
         <v-data-table
         :headers="headers"
         :items="groups"
@@ -7,7 +7,7 @@
         class="elevation-0"
         >
             <template slot="items" slot-scope="props">
-                <tr @click="selectGroup(props.item)">     
+                <tr @click="selectGroup(props.item)">
                     <td class="text-xs-center">{{ props.item.id }}</td>
                     <td class="text-xs-center">{{ props.item.name }}</td>
                     <td class="justify-center layout px-0">
@@ -24,7 +24,7 @@
                 该分类下暂无规格组或尚未选择分类
             </template>
         </v-data-table>
-        
+
         <v-btn color='primary' @click="addGroup">新增分组</v-btn>
         <v-dialog v-model="show" width="300" height="200">
         <v-card >
@@ -80,8 +80,8 @@ export default {
       },
       editGroup(group){
           Object.assign(this.group, group);
-          this.show = true;
-          this.isEdit = true;
+        this.show = true;
+        this.isEdit = true;
       },
       addGroup(){
           this.group = {cid:this.cid};
@@ -92,7 +92,7 @@ export default {
            this.$http({
             method: this.isEdit ? 'put' : 'post',
             url: '/item/spec/group',
-            data: this.group
+            data: this.$qs.stringify(this.group)
           }).then(() => {
             // 关闭窗口
             this.show = false;
@@ -109,7 +109,9 @@ export default {
                 .then(() => {
                     this.$message.success("删除成功");
                     this.loadData();
-                })
+                }).catch(() => {
+              this.$message.success("删除失败");
+            })
           })
       },
       selectGroup(group){

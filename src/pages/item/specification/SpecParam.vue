@@ -147,8 +147,9 @@ export default {
           segments:[],
           numeric:false,
           searching:false,
-          generic:false}
+          generic:false};
       this.show = true;
+      this.isEdit = false;
     },
     deleteParam(id) {
         this.$message.confirm("确认要删除该参数吗？")
@@ -156,6 +157,7 @@ export default {
             this.$http.delete("/item/spec/param/" + id)
             .then(() => {
                 this.$message.success("删除成功");
+                this.loadData();
             })
             .catch(() => {
                 this.$message.error("删除失败");
@@ -172,7 +174,8 @@ export default {
         this.$http({
             method: this.isEdit ? 'put' : 'post',
             url: '/item/spec/param',
-            data: p,
+            // 不要忘记这一步，否则后台无法正常接收参数
+            data: this.$qs.stringify(p),
         }).then(() => {
             // 关闭窗口
             this.show = false;
